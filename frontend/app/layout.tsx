@@ -4,6 +4,7 @@ import "./globals.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { ThemeProvider } from "@emotion/react";
 import darkTheme from "./dark.theme";
+import { Container, CssBaseline } from "@mui/material";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={darkTheme}>
-            {children}
+            <CssBaseline />
+            <Container>{children}</Container>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
