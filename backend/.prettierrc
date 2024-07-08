@@ -1,4 +1,7 @@
 {
   "singleQuote": true,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "prettier.eslintIntegration": true,
+  "prettier.tabWidth": 2,
+  "prettier.useTabs": true
 }
