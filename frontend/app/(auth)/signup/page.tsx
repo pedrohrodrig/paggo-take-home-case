@@ -1,15 +1,20 @@
 "use client";
 
-import { Button, Link, Stack, TextField } from "@mui/material";
+import { Alert, Button, Link, Stack, TextField } from "@mui/material";
 import NextLink from "next/link";
 import { useFormState } from "react-dom";
 import createUser from "../../services/userService";
 
-export default function Login() {
-  const [state, formAction] = useFormState(createUser, { error: "" });
+export default function SignUp() {
+  const [state, formAction] = useFormState(createUser, { error: [] });
 
   return (
     <form action={formAction} className="w-full max-w-lg">
+      {state.error.map((errorMessage: string, index: number) => (
+        <Alert key={index} severity="error" className="mb-3">
+          {errorMessage}
+        </Alert>
+      ))}
       <Stack
         spacing={4}
         sx={{ backgroundColor: "#2b2e30", borderRadius: "20px" }}
@@ -30,14 +35,7 @@ export default function Login() {
             variant="outlined"
           />
         </div>
-        <TextField
-          name="email"
-          label="Email"
-          variant="outlined"
-          type="email"
-          helperText={state.error}
-          error={!!state.error}
-        />
+        <TextField name="email" label="Email" variant="outlined" type="email" />
         <div className="flex space-x-4">
           <TextField
             fullWidth
@@ -45,8 +43,6 @@ export default function Login() {
             label="Senha"
             variant="outlined"
             type="password"
-            helperText={state.error}
-            error={!!state.error}
           />
           <TextField
             fullWidth
@@ -54,8 +50,6 @@ export default function Login() {
             label="Confirmação de senha"
             variant="outlined"
             type="password"
-            helperText={state.error}
-            error={!!state.error}
           />
         </div>
         <Button type="submit" variant="contained">
