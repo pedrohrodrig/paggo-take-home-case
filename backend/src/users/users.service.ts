@@ -9,6 +9,8 @@ export class UsersService {
 
   async createUser(data: CreateUserRequest) {
     try {
+      delete data['passwordConfirmation'];
+
       return await this.prismaService.user.create({
         data: {
           ...data,
