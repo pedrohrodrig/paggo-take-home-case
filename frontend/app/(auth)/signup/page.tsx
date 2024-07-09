@@ -30,7 +30,14 @@ export default function Login() {
             variant="outlined"
           />
         </div>
-        <TextField name="email" label="Email" variant="outlined" type="email" />
+        <TextField
+          name="email"
+          label="Email"
+          variant="outlined"
+          type="email"
+          helperText={state.error}
+          error={!!state.error}
+        />
         <div className="flex space-x-4">
           <TextField
             fullWidth
@@ -38,6 +45,8 @@ export default function Login() {
             label="Senha"
             variant="outlined"
             type="password"
+            helperText={state.error}
+            error={!!state.error}
           />
           <TextField
             fullWidth
@@ -45,6 +54,8 @@ export default function Login() {
             label="Confirmação de senha"
             variant="outlined"
             type="password"
+            helperText={state.error}
+            error={!!state.error}
           />
         </div>
         <Button type="submit" variant="contained">
