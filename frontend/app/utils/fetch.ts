@@ -12,5 +12,5 @@ export const post = async (path: string, formData: FormData) => {
   if (!response.ok) {
     return { error: getErrorMessage(parsedResponse) };
   }
-  return { error: "" };
+  return { error: [] };
 };
