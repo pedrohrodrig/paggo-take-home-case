@@ -5,6 +5,7 @@ import Providers from "./providers";
 import { Container, CssBaseline } from "@mui/material";
 import Header from "./components/header/header";
 import authenticated from "./utils/authenticated";
+import logout from "./(auth)/logout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <Providers authenticated={isAuthenticated}>
           <CssBaseline />
-          <Header />
+          <Header logout={logout} />
           <Container>{children}</Container>
         </Providers>
       </body>

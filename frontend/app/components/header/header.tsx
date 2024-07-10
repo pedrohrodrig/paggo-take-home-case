@@ -17,7 +17,11 @@ import { AuthContext } from "@/app/contexts/auth-context";
 import { routes, unauthenticatedRoutes } from "@/app/common/constants/routes";
 import { useContext, useState } from "react";
 
-export default function Header() {
+interface HeaderProps {
+  logout: () => Promise<void>;
+}
+
+export default function Header({ logout }: HeaderProps) {
   const isAuthenticated = useContext(AuthContext);
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -153,7 +157,13 @@ export default function Header() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <MenuItem key={"Logout"} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={"Logout"}
+                  onClick={async () => {
+                    await logout();
+                    handleCloseUserMenu();
+                  }}
+                >
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
               </Menu>
