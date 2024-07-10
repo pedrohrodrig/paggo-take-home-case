@@ -1,4 +1,4 @@
-"user server";
+"use server";
 
 import { redirect } from "next/navigation";
 import { FormError } from "../common/interfaces/form-error.interface";
@@ -7,7 +7,7 @@ import { getErrorMessage } from "../utils/errorMessage";
 import { setAuthCookie } from "../utils/cookies";
 
 export async function login(_prevState: FormError, formData: FormData) {
-  const response = await fetch(`${API_URL}/login`, {
+  const response = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(Object.fromEntries(formData)),

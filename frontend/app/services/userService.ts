@@ -1,3 +1,5 @@
+"use server";
+
 import { redirect } from "next/navigation";
 import { post } from "../utils/fetch";
 import { FormError } from "../common/interfaces/form-error.interface";
