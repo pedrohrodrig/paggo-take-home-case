@@ -1,5 +1,5 @@
 import { IsEmail, IsStrongPassword } from 'class-validator';
-import { Match } from 'utils/match-validator.decorator';
+import { Match } from 'utils/decorators/match-validator.decorator';
 export class CreateUserRequest {
   firstName: string;
   lastName: string;
