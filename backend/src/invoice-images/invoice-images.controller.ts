@@ -17,6 +17,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CurrentUser } from 'utils/decorators/current-user.decorator';
 import { TokenPayload } from 'utils/interfaces/token-payload.interface';
 import { InvoiceImagesService } from './invoice-images.service';
+import { INVOICE_IMAGES_PATH } from './invoice-images';
 
 @Controller('invoice-images')
 export class InvoiceImagesController {
@@ -33,7 +34,7 @@ export class InvoiceImagesController {
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
-        destination: 'public/invoice-images',
+        destination: INVOICE_IMAGES_PATH,
         filename: (request, file, callback) => {
           callback(
             null,

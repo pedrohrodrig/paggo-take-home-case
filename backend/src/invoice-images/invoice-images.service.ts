@@ -2,6 +2,7 @@ import { promises as fs } from 'fs';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { join } from 'path';
+import { INVOICE_IMAGES_PATH } from './invoice-images';
 
 @Injectable()
 export class InvoiceImagesService {
@@ -29,7 +30,7 @@ export class InvoiceImagesService {
         join(
           __dirname,
           '../../',
-          `public/invoice-images/${invoiceImageId}.jpg`,
+          `${INVOICE_IMAGES_PATH}/${invoiceImageId}.jpg`,
         ),
         fs.constants.F_OK,
       );
