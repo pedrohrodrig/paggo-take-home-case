@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { join } from 'path';
 
@@ -36,6 +36,19 @@ export class InvoiceImagesService {
       return true;
     } catch (err) {
       return false;
+    }
+  }
+
+  async getInvoiceImage(invoiceImageId: number) {
+    try {
+      return {
+        ...(await this.prismaService.invoiceImage.findUniqueOrThrow({
+          where: { id: invoiceImageId },
+        })),
+        imageExists: await this.imageExists(invoiceImageId),
+      };
+    } catch (err) {
+      throw new NotFoundException(`Image not found with ID ${invoiceImageId}`);
     }
   }
 }

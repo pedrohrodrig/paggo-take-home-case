@@ -3,6 +3,7 @@ import {
   FileTypeValidator,
   Get,
   MaxFileSizeValidator,
+  Param,
   ParseFilePipe,
   Post,
   UploadedFile,
@@ -58,5 +59,11 @@ export class InvoiceImagesController {
   @UseGuards(JwtAuthGuard)
   async getInvoiceImages() {
     return this.invoiceImagesService.getInvoiceImages();
+  }
+
+  @Get(':invoiceImageId')
+  @UseGuards(JwtAuthGuard)
+  async getProduct(@Param('invoiceImageId') invoiceImageId: number) {
+    return this.invoiceImagesService.getInvoiceImage(+invoiceImageId);
   }
 }
