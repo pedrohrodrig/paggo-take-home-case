@@ -54,7 +54,7 @@ export class InvoiceImagesController {
     _file: Express.Multer.File,
   ) {}
 
-  @Get
+  @Get()
   @UseGuards(JwtAuthGuard)
   async getInvoiceImages() {
     return this.invoiceImagesService.getInvoiceImages();
