@@ -3,7 +3,7 @@
 import { Alert, Button, Link, Stack, TextField } from "@mui/material";
 import NextLink from "next/link";
 import { useFormState } from "react-dom";
-import { createUser } from "../../services/userService";
+import { createUser } from "../../common/services/userService";
 
 export default function SignUp() {
   const [state, formAction] = useFormState(createUser, { error: [] });

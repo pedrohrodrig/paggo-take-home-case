@@ -1,8 +1,8 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { FormError } from "../common/interfaces/form-error.interface";
-import { API_URL } from "../common/constants/api";
+import { FormError } from "../interfaces/form-error.interface";
+import { API_URL } from "../constants/api";
 import { getErrorMessage } from "../utils/errorMessage";
 import { setAuthCookie } from "../utils/cookies";
 

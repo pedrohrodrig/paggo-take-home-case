@@ -1,6 +1,6 @@
 "use client";
 
-import { login } from "@/app/services/authService";
+import { login } from "@/app/common/services/authService";
 import { Alert, Button, Link, Stack, TextField } from "@mui/material";
 import NextLink from "next/link";
 import { useFormState } from "react-dom";

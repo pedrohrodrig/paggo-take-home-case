@@ -4,7 +4,7 @@ import { ThemeProvider } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { ReactElement } from "react";
 import darkTheme from "./dark.theme";
-import { AuthContext } from "./contexts/auth-context";
+import { AuthContext } from "./common/contexts/auth-context";
 
 interface ProvidersProps {
   children: ReactElement[];

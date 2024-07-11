@@ -13,7 +13,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { AuthContext } from "@/app/contexts/auth-context";
+import { AuthContext } from "@/app/common/contexts/auth-context";
 import { routes, unauthenticatedRoutes } from "@/app/common/constants/routes";
 import { useContext, useState } from "react";
 import Link from "next/link";

@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
-import { AUTHENTICATION_COOKIE } from "../common/constants/auth-cookie";
+import { AUTHENTICATION_COOKIE } from "../constants/auth-cookie";
 
 export const setAuthCookie = (response: Response) => {
   const setCookieHeader = response.headers.get("Set-Cookie");
