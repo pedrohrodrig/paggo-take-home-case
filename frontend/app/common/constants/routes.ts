@@ -14,4 +14,8 @@ export const routes = [
     title: "Home",
     path: "/",
   },
+  {
+    title: "Upload de Imagem",
+    path: "/upload-image",
+  },
 ];
