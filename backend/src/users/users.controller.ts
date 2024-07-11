@@ -1,14 +1,6 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
-import { CreateUserRequest } from './dto/createUserRequest';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { CreateUserRequest } from './dto/create-user.request';
 import { UsersService } from './users.service';
-import { NoFilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CurrentUser } from 'utils/decorators/current-user.decorator';
 import { TokenPayload } from 'utils/interfaces/token-payload.interface';
@@ -18,7 +10,6 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @UseInterceptors(NoFilesInterceptor())
   createUser(@Body() request: CreateUserRequest) {
     return this.usersService.createUser(request);
   }
