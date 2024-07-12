@@ -9,18 +9,14 @@ export class InvoiceImagesService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async createInvoiceImage(userId: number, file: Express.Multer.File) {
-    try {
-      return this.prismaService.invoiceImage.create({
-        data: {
-          filePath: file.destination,
-          fileName: file.filename,
-          fileOriginalName: file.originalname,
-          userId,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    return this.prismaService.invoiceImage.create({
+      data: {
+        filePath: file.destination,
+        fileName: file.filename,
+        fileOriginalName: file.originalname,
+        userId,
+      },
+    });
   }
 
   async getInvoiceImages() {
