@@ -25,24 +25,18 @@ export class InvoiceImagesController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  async createInvoiceImageEntity(@CurrentUser() user: TokenPayload) {
-    return this.invoiceImagesService.createInvoiceImageEntity(user.userId);
-  }
-
-  @Post(':invoiceImageId/image')
-  @UseGuards(JwtAuthGuard)
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
         destination: INVOICE_IMAGES_PATH,
         filename: (request, file, callback) => {
-          const fileName = `${request.params.invoiceImageId}${extname(file.originalname)}`;
+          const fileName = `${Date.now()}${extname(file.originalname)}`;
           callback(null, fileName);
         },
       }),
     }),
   )
-  uploadInvoiceImage(
+  async uploadInvoiceImage(
     @UploadedFile(
       new ParseFilePipe({
         validators: [
@@ -52,8 +46,9 @@ export class InvoiceImagesController {
       }),
     )
     _file: Express.Multer.File,
+    @CurrentUser() user: TokenPayload,
   ) {
-    console.log('Uploaded File:', _file);
+    return this.invoiceImagesService.createInvoiceImage(user.userId, _file);
   }
 
   @Get()

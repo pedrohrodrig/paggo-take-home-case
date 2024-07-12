@@ -17,6 +17,8 @@ model User {
 
 model InvoiceImage {
   id Int @default(autoincrement()) @id
+  fileName String @default("")
+  fileOriginalName String @default("")
   filePath String?
   transcription String?
   transcriptionSummary String?

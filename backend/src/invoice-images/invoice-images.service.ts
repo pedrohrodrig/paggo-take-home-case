@@ -8,10 +8,19 @@ import { INVOICE_IMAGES_PATH } from './invoice-images';
 export class InvoiceImagesService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async createInvoiceImageEntity(userId: number) {
-    return this.prismaService.invoiceImage.create({
-      data: { userId },
-    });
+  async createInvoiceImage(userId: number, file: Express.Multer.File) {
+    try {
+      return this.prismaService.invoiceImage.create({
+        data: {
+          filePath: file.destination,
+          fileName: file.filename,
+          fileOriginalName: file.originalname,
+          userId,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getInvoiceImages() {
