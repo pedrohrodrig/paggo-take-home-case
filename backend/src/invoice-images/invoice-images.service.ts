@@ -3,17 +3,26 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { join } from 'path';
 import { INVOICE_IMAGES_PATH } from './invoice-images';
+import { OcrService } from 'src/ocr/ocr.service';
 
 @Injectable()
 export class InvoiceImagesService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly ocrService: OcrService,
+  ) {}
 
   async createInvoiceImage(userId: number, file: Express.Multer.File) {
+    const extractedText = await this.ocrService.extractText(
+      `${file.destination}\\${file.filename}`,
+    );
+
     return this.prismaService.invoiceImage.create({
       data: {
         filePath: file.destination,
         fileName: file.filename,
         fileOriginalName: file.originalname,
+        transcription: extractedText,
         userId,
       },
     });
