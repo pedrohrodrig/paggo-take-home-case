@@ -19,7 +19,17 @@ export default async function createInvoiceImageEntity(formData: FormData) {
   const invoiceImage = formData.get("image");
   if (invoiceImage instanceof File) {
     console.log(invoiceImage.name);
-    await uploadInvoiceImage(parsedResponse.id, invoiceImage);
+    const invoiceImageResponse = await uploadInvoiceImage(
+      parsedResponse.id,
+      invoiceImage
+    );
+
+    const invoiceImageCreationParsedResponse = await response.json();
+    if (!invoiceImageResponse.ok) {
+      return {
+        error: getErrorMessage(invoiceImageCreationParsedResponse),
+      };
+    }
   }
   revalidateTag("invoice-images");
   return parsedResponse;
@@ -29,9 +39,17 @@ async function uploadInvoiceImage(invoiceImageId: number, file: File) {
   const formData = new FormData();
   formData.append("image", file);
   console.log(formData);
-  await fetch(`${API_URL}/invoice-images/${invoiceImageId}/image`, {
-    body: formData,
-    method: "POST",
-    headers: getHeaders(),
-  });
+  const response = await fetch(
+    `${API_URL}/invoice-images/${invoiceImageId}/image`,
+    {
+      body: formData,
+      method: "POST",
+      headers: getHeaders(),
+    }
+  );
+
+  const parsedResponse = await response.json();
+  if (!response.ok) return { error: getErrorMessage(parsedResponse) };
+
+  return await response.json();
 }
