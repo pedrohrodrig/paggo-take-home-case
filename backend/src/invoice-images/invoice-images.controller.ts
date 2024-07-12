@@ -29,17 +29,15 @@ export class InvoiceImagesController {
     return this.invoiceImagesService.createInvoiceImageEntity(user.userId);
   }
 
-  @Post(':invoiceImageId')
+  @Post(':invoiceImageId/image')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
         destination: INVOICE_IMAGES_PATH,
         filename: (request, file, callback) => {
-          callback(
-            null,
-            `${request.params.invoiceImageId}${extname(file.originalname)}`,
-          );
+          const fileName = `${request.params.invoiceImageId}${extname(file.originalname)}`;
+          callback(null, fileName);
         },
       }),
     }),
@@ -48,13 +46,15 @@ export class InvoiceImagesController {
     @UploadedFile(
       new ParseFilePipe({
         validators: [
-          new MaxFileSizeValidator({ maxSize: 500000 }),
+          new MaxFileSizeValidator({ maxSize: 10000000 }),
           new FileTypeValidator({ fileType: 'image/jpeg' }),
         ],
       }),
     )
     _file: Express.Multer.File,
-  ) {}
+  ) {
+    console.log('Uploaded File:', _file);
+  }
 
   @Get()
   @UseGuards(JwtAuthGuard)
