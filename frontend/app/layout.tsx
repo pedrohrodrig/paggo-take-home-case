@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import { Container, CssBaseline } from "@mui/material";
+import { Toaster } from "react-hot-toast";
 import Header from "./common/components/header/header";
 import authenticated from "./common/utils/authenticated";
 import logout from "./(auth)/logout";
@@ -26,6 +27,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <Providers authenticated={isAuthenticated}>
           <CssBaseline />
+          <Toaster />
           <Header logout={logout} />
           <Container>{children}</Container>
         </Providers>
