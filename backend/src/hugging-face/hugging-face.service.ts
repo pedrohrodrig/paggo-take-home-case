@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
 
 @Injectable()
-export class OpenAiService {
+export class HuggingFaceService {
   constructor(private readonly configService: ConfigService) {}
 
   async summarizeText(text: string): Promise<string> {
@@ -25,10 +25,10 @@ export class OpenAiService {
       return response.data[0].summary_text.trim();
     } catch (error) {
       console.error(
-        'Erro ao chamar a API da OpenAI:',
+        'Erro ao chamar a API da HuggingFace:',
         error.response ? error.response.data : error.message,
       );
-      throw new Error('Erro ao chamar a API da OpenAI');
+      throw new Error('Erro ao chamar a API da HuggingFace');
     }
   }
 }

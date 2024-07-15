@@ -4,14 +4,14 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { join } from 'path';
 import { INVOICE_IMAGES_PATH } from './invoice-images';
 import { OcrService } from 'src/ocr/ocr.service';
-import { OpenAiService } from 'src/openai/openai.service';
+import { HuggingFaceService } from 'src/hugging-face/hugging-face.service';
 
 @Injectable()
 export class InvoiceImagesService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly ocrService: OcrService,
-    private readonly openAiService: OpenAiService,
+    private readonly huggingFaceService: HuggingFaceService,
   ) {}
 
   async createInvoiceImage(userId: number, file: Express.Multer.File) {
@@ -22,7 +22,7 @@ export class InvoiceImagesService {
     console.log(extractedText);
 
     const summarizedText =
-      await this.openAiService.summarizeText(extractedText);
+      await this.huggingFaceService.summarizeText(extractedText);
 
     console.log(summarizedText);
 
