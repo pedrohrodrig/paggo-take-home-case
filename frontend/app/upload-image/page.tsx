@@ -11,6 +11,8 @@ import {
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import toast, { Toaster } from "react-hot-toast";
 import createInvoiceImageEntity from "../common/services/invoiceImagesService";
+import { useState } from "react";
+import { InvoiceImageResponse } from "../common/interfaces/invoice-image-response.interface";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -33,6 +35,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function UploadImage() {
+  const [invoiceImageResponse, setInvoiceImageResponse] =
+    useState<InvoiceImageResponse>();
+
   const handleFileUpload = (file: File) => {
     let formData = new FormData();
 
@@ -40,9 +45,16 @@ export default function UploadImage() {
 
     createInvoiceImageEntity(formData)
       .then((response) => {
-        !response.error
-          ? toast.success("Imagem enviada com sucesso")
-          : toast.error(`Erro: ${response.error}`);
+        if (!response.error) {
+          toast.success("Imagem enviada com sucesso");
+
+          setInvoiceImageResponse({
+            transcription: response.transcription,
+            summary: response.transcriptionSummary,
+          });
+        } else {
+          toast.error(`Erro: ${response.error}`);
+        }
       })
       .catch((error) => {
         toast.error(`Erro: ${error}`);
@@ -80,6 +92,7 @@ export default function UploadImage() {
               multiline
               inputProps={{ style: { resize: "both" } }}
               disabled
+              value={invoiceImageResponse?.transcription}
             />
           </Item>
         </Grid>
@@ -92,6 +105,7 @@ export default function UploadImage() {
               multiline
               inputProps={{ style: { resize: "both" } }}
               disabled
+              value={invoiceImageResponse?.summary}
             />
           </Item>
         </Grid>

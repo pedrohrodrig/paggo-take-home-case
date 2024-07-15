@@ -48,7 +48,10 @@ export class InvoiceImagesController {
     _file: Express.Multer.File,
     @CurrentUser() user: TokenPayload,
   ) {
-    return this.invoiceImagesService.createInvoiceImage(user.userId, _file);
+    return await this.invoiceImagesService.createInvoiceImage(
+      user.userId,
+      _file,
+    );
   }
 
   @Get()

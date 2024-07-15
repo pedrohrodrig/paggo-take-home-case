@@ -19,12 +19,8 @@ export class InvoiceImagesService {
       `${file.destination}\\${file.filename}`,
     );
 
-    console.log(extractedText);
-
     const summarizedText =
       await this.huggingFaceService.summarizeText(extractedText);
-
-    console.log(summarizedText);
 
     return this.prismaService.invoiceImage.create({
       data: {
