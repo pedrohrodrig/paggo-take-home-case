@@ -4,12 +4,14 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { join } from 'path';
 import { INVOICE_IMAGES_PATH } from './invoice-images';
 import { OcrService } from 'src/ocr/ocr.service';
+import { OpenAiService } from 'src/openai/openai.service';
 
 @Injectable()
 export class InvoiceImagesService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly ocrService: OcrService,
+    private readonly openAiService: OpenAiService,
   ) {}
 
   async createInvoiceImage(userId: number, file: Express.Multer.File) {
@@ -17,12 +19,20 @@ export class InvoiceImagesService {
       `${file.destination}\\${file.filename}`,
     );
 
+    console.log(extractedText);
+
+    const summarizedText =
+      await this.openAiService.summarizeText(extractedText);
+
+    console.log(summarizedText);
+
     return this.prismaService.invoiceImage.create({
       data: {
         filePath: file.destination,
         fileName: file.filename,
         fileOriginalName: file.originalname,
         transcription: extractedText,
+        transcriptionSummary: summarizedText,
         userId,
       },
     });
@@ -38,6 +48,19 @@ export class InvoiceImagesService {
     );
   }
 
+  async getInvoiceImage(invoiceImageId: number) {
+    try {
+      return {
+        ...(await this.prismaService.invoiceImage.findUniqueOrThrow({
+          where: { id: invoiceImageId },
+        })),
+        imageExists: await this.imageExists(invoiceImageId),
+      };
+    } catch (err) {
+      throw new NotFoundException(`Image not found with ID ${invoiceImageId}`);
+    }
+  }
+
   private async imageExists(invoiceImageId: number) {
     try {
       await fs.access(
@@ -51,19 +74,6 @@ export class InvoiceImagesService {
       return true;
     } catch (err) {
       return false;
-    }
-  }
-
-  async getInvoiceImage(invoiceImageId: number) {
-    try {
-      return {
-        ...(await this.prismaService.invoiceImage.findUniqueOrThrow({
-          where: { id: invoiceImageId },
-        })),
-        imageExists: await this.imageExists(invoiceImageId),
-      };
-    } catch (err) {
-      throw new NotFoundException(`Image not found with ID ${invoiceImageId}`);
     }
   }
 }

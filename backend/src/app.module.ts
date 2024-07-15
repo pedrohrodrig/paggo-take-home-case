@@ -7,6 +7,7 @@ import { InvoiceImagesModule } from './invoice-images/invoice-images.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { OcrModule } from './ocr/ocr.module';
+import { OpenAiModule } from './openai/openai.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { OcrModule } from './ocr/ocr.module';
     AuthModule,
     InvoiceImagesModule,
     OcrModule,
+    OpenAiModule,
   ],
   controllers: [],
   providers: [],
