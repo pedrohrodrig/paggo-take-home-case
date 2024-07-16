@@ -56,8 +56,8 @@ export class InvoiceImagesController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  async getInvoiceImages() {
-    return this.invoiceImagesService.getInvoiceImages();
+  async getInvoiceImages(@CurrentUser() user: TokenPayload) {
+    return await this.invoiceImagesService.getInvoiceImages(user);
   }
 
   @Get(':invoiceImageId')

@@ -1,16 +1,9 @@
 "use client";
 
-import {
-  Button,
-  Grid,
-  makeStyles,
-  Paper,
-  styled,
-  TextField,
-} from "@mui/material";
+import { Button, Grid, Paper, styled, TextField } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import toast, { Toaster } from "react-hot-toast";
-import createInvoiceImageEntity from "../common/services/invoiceImagesService";
+import toast from "react-hot-toast";
+import { createInvoiceImageEntity } from "../common/services/invoiceImagesService";
 import { useState } from "react";
 import { InvoiceImageResponse } from "../common/interfaces/invoice-image-response.interface";
 

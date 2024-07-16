@@ -18,4 +18,8 @@ export const routes = [
     title: "Upload de Imagem",
     path: "/upload-image",
   },
+  {
+    title: "Imagens Enviadas",
+    path: "/images",
+  },
 ];

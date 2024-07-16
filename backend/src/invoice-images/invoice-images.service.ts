@@ -1,10 +1,8 @@
-import { promises as fs } from 'fs';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { join } from 'path';
-import { INVOICE_IMAGES_PATH } from './invoice-images';
 import { OcrService } from 'src/ocr/ocr.service';
 import { HuggingFaceService } from 'src/hugging-face/hugging-face.service';
+import { TokenPayload } from 'utils/interfaces/token-payload.interface';
 
 @Injectable()
 export class InvoiceImagesService {
@@ -34,12 +32,13 @@ export class InvoiceImagesService {
     });
   }
 
-  async getInvoiceImages() {
-    const invoiceImages = await this.prismaService.invoiceImage.findMany();
+  async getInvoiceImages(user: TokenPayload) {
+    const invoiceImages = await this.prismaService.invoiceImage.findMany({
+      where: { userId: user.userId },
+    });
     return Promise.all(
       invoiceImages.map(async (invoiceImage) => ({
         ...invoiceImage,
-        imageExists: await this.imageExists(invoiceImage.id),
       })),
     );
   }
@@ -50,26 +49,9 @@ export class InvoiceImagesService {
         ...(await this.prismaService.invoiceImage.findUniqueOrThrow({
           where: { id: invoiceImageId },
         })),
-        imageExists: await this.imageExists(invoiceImageId),
       };
     } catch (err) {
       throw new NotFoundException(`Image not found with ID ${invoiceImageId}`);
-    }
-  }
-
-  private async imageExists(invoiceImageId: number) {
-    try {
-      await fs.access(
-        join(
-          __dirname,
-          '../../',
-          `${INVOICE_IMAGES_PATH}/${invoiceImageId}.jpg`,
-        ),
-        fs.constants.F_OK,
-      );
-      return true;
-    } catch (err) {
-      return false;
     }
   }
 }
